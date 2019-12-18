@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+      crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+</head>
+<body>
+    <button type="button" id='testBtn' class="btn btn-primary">
+    start task
+    </button>
+    <br>
+    <span id="message"></span>
+</body>
+<script>
+$(function() {
+    var user_id;
+    var socket = io();
+    socket.on('connected', function(data) {
+        user_id = data['user_id'];
+        console.log('socket connected with user_id as ' + user_id);
+        $('#message').text("connected");
+    });
+
+    $('#testBtn').click(function(){
+    debugger;
+        socket.emit('start task');
+    });
+    socket.on('message', function(data) {
+        console.log(data['message']);
+        $('#message').text(data['message']);
+    });
+
+});
+</script>
+</html>

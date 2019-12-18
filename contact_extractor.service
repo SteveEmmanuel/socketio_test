@@ -1,0 +1,18 @@
+[Unit]
+Description=Gunicorn instance to serve socketio_test
+After=network.target
+# We will give our regular user account ownership of the process since it owns all of the relevant files
+[Service]
+# Service specify the user and group under which our process will run.
+User=ubuntu
+# give group ownership to the www-data group so that Nginx can communicate easily with the Gunicorn processes.
+Group=www-data
+# We'll then map out the working directory and set the PATH environmental variable so that the init system knows where our the executables for the process are located (within our virtual environment).
+RuntimeDirectory=gunicorn
+WorkingDirectory=/home/nlai1/PycharmProjects/socketio_test/
+Environment="PATH=/home/nlai1/PycharmProjects/socketio_test/venv/bin"
+# We'll then specify the commanded to start the service
+ExecStart=/home/nlai1/PycharmProjects/socketio_test/venv/bin/gunicorn  -k gevent -w 1 --bind unix:app.sock -m 007 wsgi:app --timeout 100 --access-logfile /home/nlai1/PycharmProjects/socketio_test/log/gunicorn/access.log --error-logfile /home/nlai1/PycharmProjects/socketio_test/log/gunicorn/error.log
+# This will tell systemd what to link this service to if we enable it to start at boot. We want this service to start when the regular multi-user system is up and running:
+[Install]
+WantedBy=multi-user.target
