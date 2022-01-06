@@ -1,4 +1,4 @@
-celery==4.4.0
+celery==5.2.2
   - billiard [required: >=3.6.1,<4.0, installed: 3.6.1.0]
   - kombu [required: >=4.6.7,<4.7, installed: 4.6.7]
     - amqp [required: >=2.5.2,<2.6, installed: 2.5.2]
